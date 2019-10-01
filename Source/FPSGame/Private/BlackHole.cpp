@@ -4,6 +4,7 @@
 #include "BlackHole.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "FPSCharacter.h"
 
 // Sets default values
 ABlackHole::ABlackHole()
@@ -16,15 +17,19 @@ ABlackHole::ABlackHole()
 	RootComponent = MeshComp;
 
 	DestructiveSphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("Inner Sphere Comp"));
-	//DestructiveSphereComp->SetCollisionResponseToAllChannels(ECR_Ignore);
-	//DestructiveSphereComp->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
+	DestructiveSphereComp->SetCollisionObjectType(ECC_Vehicle);
+	DestructiveSphereComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+	DestructiveSphereComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
+	DestructiveSphereComp->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 	DestructiveSphereComp->SetupAttachment(MeshComp);
 
 	DestructiveSphereComp->OnComponentBeginOverlap.AddDynamic(this, &ABlackHole::OverlapInnerSphere);
 
 	AttractionSphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("Outer Sphere Comp"));
-	//AttractionSphereComp->SetCollisionResponseToAllChannels(ECR_Ignore); 
-	//AttractionSphereComp->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
+	AttractionSphereComp->SetCollisionObjectType(ECC_Vehicle);
+	AttractionSphereComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+	AttractionSphereComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
+	AttractionSphereComp->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 	AttractionSphereComp->SetupAttachment(MeshComp);
 }
 
@@ -32,12 +37,12 @@ ABlackHole::ABlackHole()
 void ABlackHole::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ABlackHole::OverlapInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor) 
+
+	if (OtherActor)
 	{
 		OtherActor->Destroy();
 	}
@@ -57,10 +62,9 @@ void ABlackHole::Tick(float DeltaTime)
 		//set variable to current index
 		UPrimitiveComponent* PrimComp = OverlappingComps[i];
 
-		if (PrimComp && PrimComp->IsSimulatingPhysics()) 
+		if (PrimComp && PrimComp->IsSimulatingPhysics())
 		{
 			const float SphereRadius = AttractionSphereComp->GetScaledSphereRadius();
-			const float ForceStrength = -2000; //negative to pull towards origin
 
 			PrimComp->AddRadialForce(GetActorLocation(), SphereRadius, ForceStrength, ERadialImpulseFalloff::RIF_Constant, true);
 		}

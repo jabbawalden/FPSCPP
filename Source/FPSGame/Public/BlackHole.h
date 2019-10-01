@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UStaticMeshComponent;
+class AFPSCharacter;
 
 UCLASS()
 class FPSGAME_API ABlackHole : public AActor
@@ -17,6 +18,7 @@ class FPSGAME_API ABlackHole : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABlackHole();
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -37,8 +39,12 @@ protected:
 	UFUNCTION()
 	void OverlapInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UPROPERTY(EditDefaultsOnly, Category = "Values")
+	float ForceStrength = -2000;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 
 };
