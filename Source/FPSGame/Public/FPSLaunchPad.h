@@ -9,6 +9,7 @@
 class UStaticMeshComponent;
 class UBoxComponent;
 class UCapsuleComponent;
+class UPrimitiveComponent;
 
 UCLASS()
 class FPSGAME_API AFPSLaunchPad : public AActor
@@ -31,10 +32,16 @@ protected:
 	float LaunchForce = 12000;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
+	float ImpulseForce = 1225000;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
 	float UpForce = 0.8f;
 
 	UFUNCTION()
 	void LaunchPlayer(AFPSCharacter* MyCharacter);
+
+	UFUNCTION()
+	void LaunchCube(AActor* MyComponent);
 
 	UPROPERTY(BlueprintReadOnly, Category = "Gameplay")
 	bool bIsCharacter = false;
@@ -45,10 +52,12 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Gameplay")
 	FVector LaunchDirection;
 
+	UFUNCTION()
+	void OverlapLaunchPad(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 public:	
 
 	virtual void NotifyActorBeginOverlap(AActor* MyActor) override;
 
 	virtual void NotifyActorEndOverlap(AActor* MyActor) override;
-
 };

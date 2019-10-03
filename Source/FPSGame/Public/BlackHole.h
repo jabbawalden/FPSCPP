@@ -28,7 +28,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	USphereComponent* AttractionSphereComp;
 
-	//inner sphere component to destroy
+	////inner sphere component to destroy
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	USphereComponent* DestructiveSphereComp;
 
@@ -41,6 +41,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Values")
 	float ForceStrength = -2000;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Values")
+	float AttractionRadius = 3000;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Values")
+	float DestructionRadius = 1;
 
 public:	
 	// Called every frame

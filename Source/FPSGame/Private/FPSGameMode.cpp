@@ -7,8 +7,13 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 
+
+
 AFPSGameMode::AFPSGameMode()
 {
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.bCanEverTick = true;
+
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/Blueprints/BP_Player"));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
@@ -28,36 +33,18 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
 		if (SpectatingViewpointClass) 
 		{
 			TArray<AActor*> ReturnedActors;
-			TArray<AActor*> ReturnedBHoleLocs;
 			UGameplayStatics::GetAllActorsOfClass(this, SpectatingViewpointClass, ReturnedActors);
-			UGameplayStatics::GetAllActorsOfClass(this, BlackHoleLocation, ReturnedBHoleLocs);
 
 			if (ReturnedActors.Num() > 0)
 			{
 				AActor* NewViewTarget = ReturnedActors[0];
-
-
 				APlayerController* PlayerController = Cast<APlayerController>(InstigatorPawn->GetController());
 
 				if (PlayerController)
 				{
 					PlayerController->SetViewTargetWithBlend(NewViewTarget, 1.2f, EViewTargetBlendFunction::VTBlend_Cubic);
-
-					if (ReturnedBHoleLocs.Num() > 0) 
-					{
-						AActor* NewBlackHoleLocation = ReturnedBHoleLocs[0];
-						FVector SpawnLocation = NewBlackHoleLocation->GetActorLocation();
-						FActorSpawnParameters ActorSpawnParams;
-						ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-						/*ActorSpawnParams.Name = "BlackWhole";*/
-					//	GetWorld()->SpawnActor(BlackHoleBlueprint, SpawnLocation, FVector(0));
-					//	UE_LOG(LogTemp, Log, TEXT("SPAWWWWWN"));
-						//AActor* temp = GetWorld()->SpawnActor(BlackHoleBlueprint/*, SpawnLocation, FRotator(0), ActorSpawnParams*/);
-						//FString stringName = temp->GetName();
-						//UE_LOG(LogTemp, Log, TEXT("Name: %s"), *stringName);
-					}
-					//spawn blueprint
+					bCanSpawn = true;	
+					NewTime = UGameplayStatics::GetTimeSeconds(GetWorld()) + WaitTime;
 				}
 			}
 		}
@@ -69,5 +56,35 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
 
 	OnMissionCompleted(InstigatorPawn);
 
+}
 
+void AFPSGameMode::SpawnBlackHole()
+{
+	TArray<AActor*> ReturnedBHoleLocs;
+	UGameplayStatics::GetAllActorsOfClass(this, SpawnLocations, ReturnedBHoleLocs);
+
+	if (ReturnedBHoleLocs.Num() > 0)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Spawn Called"));
+		AActor* NewBlackHoleLocation = ReturnedBHoleLocs[0];
+		FVector NewSpawnLocation = NewBlackHoleLocation->GetActorLocation();
+		FActorSpawnParameters ActorSpawnParams;
+		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+		GetWorld()->SpawnActor<AActor>(BlackHoleBlueprint, NewSpawnLocation, FRotator(0), ActorSpawnParams);
+
+	}
+}
+
+void AFPSGameMode::Tick(float DeltaSecond)
+{
+	Super::Tick(DeltaSecond);
+
+	float WorldTime = UGameplayStatics::GetTimeSeconds(GetWorld());
+
+	if (bCanSpawn && NewTime <= WorldTime)
+	{
+		AFPSGameMode::SpawnBlackHole();
+		bCanSpawn = false;
+	}
 }
