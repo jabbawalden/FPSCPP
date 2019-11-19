@@ -8,11 +8,10 @@
 #include "Engine/World.h"
 
 
-
 AFPSGameMode::AFPSGameMode()
 {
 	PrimaryActorTick.bStartWithTickEnabled = true;
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = true; 
 
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/Blueprints/BP_Player"));
@@ -23,9 +22,9 @@ AFPSGameMode::AFPSGameMode()
 
 }
 
-void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
+void AFPSGameMode::CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess)
 {
-	if (InstigatorPawn) 
+	if (InstigatorPawn)   
 	{
 		//nullptr disables whatever was required in parameters
 		InstigatorPawn->DisableInput(nullptr);
@@ -40,7 +39,7 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
 				AActor* NewViewTarget = ReturnedActors[0];
 				APlayerController* PlayerController = Cast<APlayerController>(InstigatorPawn->GetController());
 
-				if (PlayerController)
+				if (PlayerController && !bGameOver)
 				{
 					PlayerController->SetViewTargetWithBlend(NewViewTarget, 1.2f, EViewTargetBlendFunction::VTBlend_Cubic);
 					bCanSpawn = true;	
@@ -54,7 +53,11 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
 		}
 	}
 
-	OnMissionCompleted(InstigatorPawn);
+	if (!bGameOver) 
+	{
+		bGameOver = true;
+		OnMissionCompleted(InstigatorPawn, bMissionSuccess);
+	}
 
 }
 
@@ -65,14 +68,13 @@ void AFPSGameMode::SpawnBlackHole()
 
 	if (ReturnedBHoleLocs.Num() > 0)
 	{
-		UE_LOG(LogTemp, Log, TEXT("Spawn Called"));
+		//UE_LOG(LogTemp, Log, TEXT("Spawn Called"));
 		AActor* NewBlackHoleLocation = ReturnedBHoleLocs[0];
 		FVector NewSpawnLocation = NewBlackHoleLocation->GetActorLocation();
 		FActorSpawnParameters ActorSpawnParams;
 		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 		GetWorld()->SpawnActor<AActor>(BlackHoleBlueprint, NewSpawnLocation, FRotator(0), ActorSpawnParams);
-
 	}
 }
 

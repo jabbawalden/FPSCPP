@@ -31,7 +31,6 @@ AFPSCharacter::AFPSCharacter()
 	NoiseEmitterComp = CreateDefaultSubobject<UPawnNoiseEmitterComponent>(TEXT("NoiseEmitter"));
 }
 
-
 void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	// set up gameplay key bindings
@@ -45,8 +44,82 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+
+	PlayerInputComponent->BindAction("FadeInLayer1", IE_Pressed, this, &AFPSCharacter::FadeInLayer1);
+	PlayerInputComponent->BindAction("FadeInLayer2", IE_Pressed, this, &AFPSCharacter::FadeInLayer2);
+	PlayerInputComponent->BindAction("FadeInLayer3", IE_Pressed, this, &AFPSCharacter::FadeInLayer3);
+	PlayerInputComponent->BindAction("FadeOutLayer1", IE_Pressed, this, &AFPSCharacter::FadeOutLayer1);
+	PlayerInputComponent->BindAction("FadeOutLayer2", IE_Pressed, this, &AFPSCharacter::FadeOutLayer2);
+	PlayerInputComponent->BindAction("FadeOutLayer3", IE_Pressed, this, &AFPSCharacter::FadeOutLayer3);
 }
 
+void AFPSCharacter::FadeInLayer1()
+{
+	if (MusicManagerRef == nullptr)
+		return;
+	MusicManagerRef->FadeLayer1(true);
+}
+
+
+void AFPSCharacter::FadeInLayer2()
+{
+	if (MusicManagerRef == nullptr)
+		return;
+	MusicManagerRef->FadeLayer2(true);
+}
+
+
+void AFPSCharacter::FadeInLayer3()
+{
+	if (MusicManagerRef == nullptr)
+		return;
+	MusicManagerRef->FadeLayer3(true);
+}
+
+
+void AFPSCharacter::FadeOutLayer1()
+{
+	if (MusicManagerRef == nullptr)
+		return;
+	MusicManagerRef->FadeLayer1(false);
+}
+
+
+void AFPSCharacter::FadeOutLayer2()
+{
+	if (MusicManagerRef == nullptr)
+		return;
+	MusicManagerRef->FadeLayer2(false);
+	UE_LOG(LogTemp, Log, TEXT("Fade Out 2"));
+}
+
+
+void AFPSCharacter::FadeOutLayer3()
+{
+	if (MusicManagerRef == nullptr)
+		return;
+	MusicManagerRef->FadeLayer3(false);
+	UE_LOG(LogTemp, Log, TEXT("Fade Out 3"));
+}
+
+
+void AFPSCharacter::BeginPlay()
+{
+	UGameplayStatics::GetAllActorsOfClass(this, MusicManagerClass, MusicManagerArray);
+
+	if (MusicManagerArray.Num() > 0)
+	{
+		UE_LOG(LogTemp, Log, TEXT("We found a music manager"));
+		MusicManagerRef = Cast<AMusicManager>(MusicManagerArray[0]);
+
+		if (MusicManagerRef != nullptr)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Music Manager Ref is not null"));
+		}
+	}
+
+
+}
 
 void AFPSCharacter::Fire()
 {
@@ -55,7 +128,6 @@ void AFPSCharacter::Fire()
 	{
 		FVector MuzzleLocation = GunMeshComponent->GetSocketLocation("Muzzle");
 		FRotator MuzzleRotation = GunMeshComponent->GetSocketRotation("Muzzle");
-
 		//Set Spawn Collision Handling Override
 		FActorSpawnParameters ActorSpawnParams;
 		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;

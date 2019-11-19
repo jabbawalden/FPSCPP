@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "MusicManager.h"
 #include "FPSCharacter.generated.h"
 
 class UInputComponent;
@@ -13,6 +14,7 @@ class AFPSProjectile;
 class USoundBase;
 class UAnimSequence;
 class UPawnNoiseEmitterComponent;
+class AMusicManager;
 
 UCLASS()
 class AFPSCharacter : public ACharacter
@@ -54,8 +56,37 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Gameplay")
 	bool bIsCarryingObjective;
 
+	UPROPERTY(EditDefaultsOnly, Category = "MusicManager")
+	TArray<AActor*> MusicManagerArray;
+
+	UPROPERTY(EditDefaultsOnly, Category = "MusicManager")
+	TSubclassOf<AMusicManager> MusicManagerClass;
+
+	UPROPERTY()
+	AMusicManager* MusicManagerRef;
+
+	UFUNCTION()
+	void FadeInLayer1();
+
+	UFUNCTION()
+	void FadeInLayer2();
+
+	UFUNCTION()
+	void FadeInLayer3();
+
+	UFUNCTION()
+	void FadeOutLayer1();
+
+	UFUNCTION()
+	void FadeOutLayer2();
+
+	UFUNCTION()
+	void FadeOutLayer3();
+
 protected:
 	
+	virtual void BeginPlay() override;
+
 	/** Fires a projectile. */
 	void Fire();
 

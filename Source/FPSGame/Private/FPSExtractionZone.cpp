@@ -34,16 +34,15 @@ void AFPSExtractionZone::HandleOverlap(UPrimitiveComponent* OverlappedComponent,
 	AFPSCharacter* MyCharacter = Cast<AFPSCharacter>(OtherActor);
 	if (MyCharacter) 
 	{
-		AFPSGameMode* GameMode = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
-
 		if (MyCharacter->bIsCarryingObjective) 
 		{
 			//belong to class ugameplaystatics where all functions are static I.E. accessible from anywhere
 			UGameplayStatics::PlaySound2D(this, ObjectiveCompletedAudio);
+			AFPSGameMode* GameMode = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
 
 			if (GameMode)
 			{
-				GameMode->CompleteMission(MyCharacter);
+				GameMode->CompleteMission(MyCharacter, true);
 			}
 		}
 		else 

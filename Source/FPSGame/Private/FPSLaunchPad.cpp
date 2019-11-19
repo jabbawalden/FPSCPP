@@ -23,7 +23,6 @@ AFPSLaunchPad::AFPSLaunchPad()
 
 void AFPSLaunchPad::LaunchPlayer(AFPSCharacter* MyCharacter)
 {
-
 	if (MyCharacter)
 	{
 		//get current launch pad forward vector
@@ -67,7 +66,7 @@ void AFPSLaunchPad::OverlapLaunchPad(UPrimitiveComponent* OverlappedComponent, A
 {
 	if(OverlappedComponent)
 	{
-		UE_LOG(LogTemp, Log, TEXT("Component is overlapping"));
+		//UE_LOG(LogTemp, Log, TEXT("Component is overlapping"));
 	}
 }
 
@@ -83,7 +82,7 @@ void AFPSLaunchPad::NotifyActorBeginOverlap(AActor* MyActor)
 	else if (MyActor)
 	{
 		AFPSLaunchPad::LaunchCube(MyActor);
-		UE_LOG(LogTemp, Log, TEXT("Actor found"));
+		//UE_LOG(LogTemp, Log, TEXT("Actor found"));
 	}
 }
 

@@ -25,12 +25,14 @@ protected:
 	TSubclassOf<AActor> BlackHoleBlueprint;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Value")
-	float WaitTime = 1;
+	float WaitTime = 1.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Value")
-	float NewTime = 0;
+	float NewTime = 0.f;
 
 	bool bCanSpawn = false;
+
+	bool bGameOver = false;
 
 	UFUNCTION()
 	void SpawnBlackHole();
@@ -39,10 +41,10 @@ public:
 
 	AFPSGameMode();
 
-	void CompleteMission(APawn* InstigatorPawn);
+	void CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "GameMode")
-	void OnMissionCompleted(APawn* InstigatorPawn);
+	void OnMissionCompleted(APawn* InstigatorPawn, bool bMissionSuccess);
 
 	virtual void Tick(float DeltaSecond) override;
 };
