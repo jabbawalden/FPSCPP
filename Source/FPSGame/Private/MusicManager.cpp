@@ -183,7 +183,6 @@ void AMusicManager::BeginPlay()
 	AudioCompLayer6->Play();
 	AudioCompLayer7->Play();
 	AudioCompLayer8->Play();
-
 }
 
 // Called every frame
