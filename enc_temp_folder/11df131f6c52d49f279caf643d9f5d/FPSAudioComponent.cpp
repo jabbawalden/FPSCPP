@@ -12,8 +12,6 @@ UFPSAudioComponent::UFPSAudioComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	/*** A way of setting data tables directly from content folders ***/
-
 	//static ConstructorHelpers::FObjectFinder<UDataTable> AudioDataEnemyObj(TEXT("DataTable'/Game/Blueprints/DT_AudioDataCharacter.DT_AudioDataEnemy'"));
 	//static ConstructorHelpers::FObjectFinder<UDataTable> AudioDataPlayerObj(TEXT("DataTable'/Game/Blueprints/DT_AudioDataCharacter.DT_AudioDataPlayer'"));
 	//static ConstructorHelpers::FObjectFinder<UDataTable> AudioDataEnvironmentObj(TEXT("DataTable'/Game/Blueprints/DT_AudioDataCharacter.DT_AudioDataEnvironment'"));
