@@ -31,14 +31,32 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
 	UAudioComponent* AudioCompLayer3;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UAudioComponent* AudioCompLayer4;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UAudioComponent* AudioCompLayer5;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UAudioComponent* AudioCompLayer6;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UAudioComponent* AudioCompLayer7;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UAudioComponent* AudioCompLayer8;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Values")
 	float MaxVolume = 0.7f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Values")
-	float MinVolume = 0.001f;
+	float MinVolume = 0.0003f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Values")
-	float InterpSpeed = 2.1f;
+	float InterpSpeedIn = 0.12f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Values")
+	float InterpSpeedOut = 1.1f;
 
 	UPROPERTY()
 	float Layer1Vol;
@@ -50,6 +68,21 @@ public:
 	float Layer3Vol;
 
 	UPROPERTY()
+	float Layer4Vol;
+
+	UPROPERTY()
+	float Layer5Vol;
+
+	UPROPERTY()
+	float Layer6Vol;
+
+	UPROPERTY()
+	float Layer7Vol;
+
+	UPROPERTY()
+	float Layer8Vol;
+
+	UPROPERTY()
 	bool bLayer1 = false;
 
 	UPROPERTY()
@@ -58,6 +91,21 @@ public:
 	UPROPERTY()
 	bool bLayer3 = false;
 
+	UPROPERTY()
+	bool bLayer4 = false;
+
+	UPROPERTY()
+	bool bLayer5 = false;
+
+	UPROPERTY()
+	bool bLayer6 = false;
+
+	UPROPERTY()
+	bool bLayer7 = false;
+
+	UPROPERTY()
+	bool bLayer8 = false;
+
 	UFUNCTION()
 	void FadeInAudioLayer(UAudioComponent* AudioComp, float DeltaTime);
 
@@ -65,13 +113,8 @@ public:
 	void FadeOutAudioLayer(UAudioComponent* AudioComp, float DeltaTime);
 
 	UFUNCTION()
-	void FadeLayer1(bool bCheck);
+	void FadeLayer(bool bCheck, int Index);
 
-	UFUNCTION()
-	void FadeLayer2(bool bCheck);
-
-	UFUNCTION()
-	void FadeLayer3(bool bCheck);
 
 	UFUNCTION()
 	void VolumeUpdater(float DeltaTime);

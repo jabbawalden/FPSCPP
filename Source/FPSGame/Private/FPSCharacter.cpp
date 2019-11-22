@@ -6,7 +6,9 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "FPSAudioComponent.h"
 #include "Components/PawnNoiseEmitterComponent.h"
+
 
 AFPSCharacter::AFPSCharacter()
 {
@@ -29,6 +31,13 @@ AFPSCharacter::AFPSCharacter()
 	GunMeshComponent->SetupAttachment(Mesh1PComponent, "GripPoint");
 
 	NoiseEmitterComp = CreateDefaultSubobject<UPawnNoiseEmitterComponent>(TEXT("NoiseEmitter"));
+
+	StormComp = CreateDefaultSubobject<UFPSStormComponent>(TEXT("StormComp"));
+	StormComp->StormEvent.AddDynamic(this, &AFPSCharacter::CharacterStormFunction);
+
+	AudioComp = CreateDefaultSubobject<UFPSAudioComponent>(TEXT("AudioComp"));
+
+	
 }
 
 void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -45,66 +54,111 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
-	PlayerInputComponent->BindAction("FadeInLayer1", IE_Pressed, this, &AFPSCharacter::FadeInLayer1);
-	PlayerInputComponent->BindAction("FadeInLayer2", IE_Pressed, this, &AFPSCharacter::FadeInLayer2);
-	PlayerInputComponent->BindAction("FadeInLayer3", IE_Pressed, this, &AFPSCharacter::FadeInLayer3);
-	PlayerInputComponent->BindAction("FadeOutLayer1", IE_Pressed, this, &AFPSCharacter::FadeOutLayer1);
-	PlayerInputComponent->BindAction("FadeOutLayer2", IE_Pressed, this, &AFPSCharacter::FadeOutLayer2);
-	PlayerInputComponent->BindAction("FadeOutLayer3", IE_Pressed, this, &AFPSCharacter::FadeOutLayer3);
+	PlayerInputComponent->BindAction("FadeInLayer1", IE_Pressed, this, &AFPSCharacter::FadeLayer1);
+	PlayerInputComponent->BindAction("FadeInLayer2", IE_Pressed, this, &AFPSCharacter::FadeLayer2);
+	PlayerInputComponent->BindAction("FadeInLayer3", IE_Pressed, this, &AFPSCharacter::FadeLayer3);
+	PlayerInputComponent->BindAction("FadeInLayer4", IE_Pressed, this, &AFPSCharacter::FadeLayer4);
+	PlayerInputComponent->BindAction("FadeOutLayer1", IE_Pressed, this, &AFPSCharacter::FadeLayer5);
+	PlayerInputComponent->BindAction("FadeOutLayer2", IE_Pressed, this, &AFPSCharacter::FadeLayer6);
+	PlayerInputComponent->BindAction("FadeOutLayer3", IE_Pressed, this, &AFPSCharacter::FadeLayer7);
+	PlayerInputComponent->BindAction("FadeOutLayer4", IE_Pressed, this, &AFPSCharacter::FadeLayer8);
 }
 
-void AFPSCharacter::FadeInLayer1()
+void AFPSCharacter::FadeLayer1()
 {
 	if (MusicManagerRef == nullptr)
 		return;
-	MusicManagerRef->FadeLayer1(true);
+
+	OneIsOn = !OneIsOn;
+	MusicManagerRef->FadeLayer(OneIsOn, 1);
+
+	FAudioNamesCharacter* AudioNames = new FAudioNamesCharacter;
+	AudioComp->PlaySound(AudioNames->Transform);
 }
 
 
-void AFPSCharacter::FadeInLayer2()
+void AFPSCharacter::FadeLayer2()
 {
 	if (MusicManagerRef == nullptr)
 		return;
-	MusicManagerRef->FadeLayer2(true);
+
+	TwoIsOn = !TwoIsOn;
+	MusicManagerRef->FadeLayer(TwoIsOn, 2);
+
+	FAudioNamesCharacter* AudioNames = new FAudioNamesCharacter;
+	AudioComp->PlaySound(AudioNames->Walk);
 }
 
 
-void AFPSCharacter::FadeInLayer3()
+void AFPSCharacter::FadeLayer3()
 {
 	if (MusicManagerRef == nullptr)
 		return;
-	MusicManagerRef->FadeLayer3(true);
+
+	ThreeIsOn = !ThreeIsOn;
+	MusicManagerRef->FadeLayer(ThreeIsOn, 3);
+
+	FAudioNamesCharacter* AudioNames = new FAudioNamesCharacter;
+	AudioComp->PlaySound(AudioNames->Run);
 }
 
-
-void AFPSCharacter::FadeOutLayer1()
+void AFPSCharacter::FadeLayer4()
 {
 	if (MusicManagerRef == nullptr)
 		return;
-	MusicManagerRef->FadeLayer1(false);
+
+	FourIsOn = !FourIsOn;
+	MusicManagerRef->FadeLayer(FourIsOn, 4);
 }
 
-
-void AFPSCharacter::FadeOutLayer2()
+void AFPSCharacter::FadeLayer5()
 {
 	if (MusicManagerRef == nullptr)
 		return;
-	MusicManagerRef->FadeLayer2(false);
-	UE_LOG(LogTemp, Log, TEXT("Fade Out 2"));
+
+	FiveIsOn = !FiveIsOn;
+	MusicManagerRef->FadeLayer(FiveIsOn, 5);
 }
 
 
-void AFPSCharacter::FadeOutLayer3()
+void AFPSCharacter::FadeLayer6()
 {
 	if (MusicManagerRef == nullptr)
 		return;
-	MusicManagerRef->FadeLayer3(false);
-	UE_LOG(LogTemp, Log, TEXT("Fade Out 3"));
+
+	SixIsOn = !SixIsOn;
+	MusicManagerRef->FadeLayer(SixIsOn, 6);
 }
 
+
+void AFPSCharacter::FadeLayer7()
+{
+	if (MusicManagerRef == nullptr)
+		return;
+
+	SevenIsOn = !SevenIsOn;
+	MusicManagerRef->FadeLayer(SevenIsOn, 7);
+}
+
+
+void AFPSCharacter::FadeLayer8()
+{
+	if (MusicManagerRef == nullptr)
+		return;
+
+	EightIsOn = !EightIsOn;
+	MusicManagerRef->FadeLayer(EightIsOn, 8);
+}
+
+void AFPSCharacter::CharacterStormFunction()
+{
+	UE_LOG(LogTemp, Log, TEXT("Storm event called on PLAYER character"));
+}
 
 void AFPSCharacter::BeginPlay()
 {
+	//UGameplayStatics::PlaySound2D(this, SoundTest, 1.f, 1.f); 
+
 	UGameplayStatics::GetAllActorsOfClass(this, MusicManagerClass, MusicManagerArray);
 
 	if (MusicManagerArray.Num() > 0)
@@ -115,6 +169,7 @@ void AFPSCharacter::BeginPlay()
 		if (MusicManagerRef != nullptr)
 		{
 			UE_LOG(LogTemp, Log, TEXT("Music Manager Ref is not null"));
+			//MusicManagerRef->FadeLayer(true, 1);
 		}
 	}
 

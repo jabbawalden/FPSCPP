@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "MusicManager.h"
+#include "FPSStormComponent.h"
+#include "FPSAudioComponent.h"
+#include "Sound/SoundCue.h"
 #include "FPSCharacter.generated.h"
 
 class UInputComponent;
@@ -14,7 +17,10 @@ class AFPSProjectile;
 class USoundBase;
 class UAnimSequence;
 class UPawnNoiseEmitterComponent;
+class UFPSStormComponent;
 class AMusicManager;
+class UFPSAudioComponent;
+class USoundCue;
 
 UCLASS()
 class AFPSCharacter : public ACharacter
@@ -37,6 +43,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
 	UPawnNoiseEmitterComponent* NoiseEmitterComp;
+
+	UFUNCTION()
+	void CharacterStormFunction();
 
 public:
 	AFPSCharacter();
@@ -62,26 +71,65 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "MusicManager")
 	TSubclassOf<AMusicManager> MusicManagerClass;
 
+	UPROPERTY(VisibleAnywhere, Category = "StormComp")
+	UFPSStormComponent* StormComp;
+
+	UPROPERTY(VisibleAnywhere, Category = "AudioComp")
+	UFPSAudioComponent* AudioComp;
+
 	UPROPERTY()
 	AMusicManager* MusicManagerRef;
 
 	UFUNCTION()
-	void FadeInLayer1();
+	void FadeLayer1();
 
 	UFUNCTION()
-	void FadeInLayer2();
+	void FadeLayer2();
 
 	UFUNCTION()
-	void FadeInLayer3();
+	void FadeLayer3();
 
 	UFUNCTION()
-	void FadeOutLayer1();
+	void FadeLayer4();
 
 	UFUNCTION()
-	void FadeOutLayer2();
+	void FadeLayer5();
 
 	UFUNCTION()
-	void FadeOutLayer3();
+	void FadeLayer6();
+
+	UFUNCTION()
+	void FadeLayer7();
+
+	UFUNCTION()
+	void FadeLayer8();
+
+	UPROPERTY()
+	bool OneIsOn;
+
+	UPROPERTY()
+	bool TwoIsOn;
+
+	UPROPERTY()
+	bool ThreeIsOn;
+
+	UPROPERTY()
+	bool FourIsOn;
+
+	UPROPERTY()
+	bool FiveIsOn;
+
+	UPROPERTY()
+	bool SixIsOn;
+
+	UPROPERTY()
+	bool SevenIsOn;
+
+	UPROPERTY()
+	bool EightIsOn;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DataTable")
+	USoundCue* SoundTest;
 
 protected:
 	

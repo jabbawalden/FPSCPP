@@ -46,7 +46,35 @@ void AFPSStorm::ReturnIndex()
 
 void AFPSStorm::OnBeginComponentOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	UE_LOG(LogTemp, Log, TEXT("WE OVERLAPPED WITH SOMETHING %s"), *OtherActor->GetFName().ToString());
 
+	//UFPSStormComponent* StormComp = Cast<UFPSStormComponent>(OtherComp);
+	//TSubclassOf<AFPSCharacter> CharacterClass;
+	AFPSCharacter* CharRef = Cast<AFPSCharacter>(OtherActor);
+
+	if (CharRef != nullptr)
+	{
+		UE_LOG(LogTemp, Log, TEXT("WE FOUND OUR CHARACTER"));
+	}
+
+	TArray<UFPSStormComponent*> StormCompArray;
+
+	TSubclassOf<UFPSStormComponent> StormCompClass;
+	UFPSStormComponent* StormComp = Cast<UFPSStormComponent>(OtherActor->GetComponentByClass(StormCompClass));
+	//OtherActor->GetComponents<UActorComponent>(StormCompClass)
+
+	//UFPSStormComponent* StormComp;
+	//OtherActor->GetComponents<UFPSStormComponent>();
+
+	if (StormComp != nullptr)
+	{
+		UE_LOG(LogTemp, Log, TEXT("STORM FOUND A STORM COMP"));
+		StormComp->StormEvent.Broadcast();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("NO STORM COMP WAS FOUND"));
+	}
 }
 
 // Called when the game starts or when spawned

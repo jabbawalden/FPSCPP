@@ -6,10 +6,14 @@
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "FPSCharacter.h"
+#include "FPSStormComponent.h"
 #include "FPSStorm.generated.h"
 
 class USphereComponent;
 class UStaticMeshComponent;
+class UFPSStormComponent;
+class AFPSCharacter;
 
 UCLASS()
 class FPSGAME_API AFPSStorm : public AActor
