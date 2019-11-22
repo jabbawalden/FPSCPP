@@ -97,10 +97,10 @@ public:
 	float MinVolumeCheck = 0.01f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Values")
-	float InterpSpeedIn = 0.19f;
+	float InterpSpeedIn = 0.12f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Values")
-	float InterpSpeedOut = 1.3f;
+	float InterpSpeedOut = 1.1f;
 
 	UPROPERTY()
 	float T1Layer1Vol;

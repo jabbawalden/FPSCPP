@@ -72,10 +72,8 @@ void AFPSCharacter::FadeLayer1()
 	OneIsOn = !OneIsOn;
 	MusicManagerRef->FadeLayer(OneIsOn, TrackLayerSelection::T1L1);
 
-	//FAudioNamesCharacter* AudioNames = new FAudioNamesCharacter;
-	//AudioComp->PlaySound(AudioNames->Transform);
-
-	UE_LOG(LogTemp, Log, TEXT("Fade in 1 - Stage 1"));
+	FAudioNamesCharacter* AudioNames = new FAudioNamesCharacter;
+	AudioComp->PlaySound(AudioNames->Transform);
 }
 
 
@@ -87,10 +85,8 @@ void AFPSCharacter::FadeLayer2()
 	TwoIsOn = !TwoIsOn;
 	MusicManagerRef->FadeLayer(TwoIsOn, TrackLayerSelection::T1L2);
 
-	//FAudioNamesCharacter* AudioNames = new FAudioNamesCharacter;
-	//AudioComp->PlaySound(AudioNames->Walk);
-
-	UE_LOG(LogTemp, Log, TEXT("Fade in 2 - Stage 1"));
+	FAudioNamesCharacter* AudioNames = new FAudioNamesCharacter;
+	AudioComp->PlaySound(AudioNames->Walk);
 }
 
 
@@ -104,10 +100,8 @@ void AFPSCharacter::FadeLayer3()
 	MusicManagerRef->FadeLayer(ThreeIsOn, TrackLayerSelection::T1L4);
 	MusicManagerRef->FadeLayer(ThreeIsOn, TrackLayerSelection::T1L5);
 
-	//FAudioNamesCharacter* AudioNames = new FAudioNamesCharacter;
-	//AudioComp->PlaySound(AudioNames->Run);
-
-	UE_LOG(LogTemp, Log, TEXT("Fade in 3 - Stage 1"));
+	FAudioNamesCharacter* AudioNames = new FAudioNamesCharacter;
+	AudioComp->PlaySound(AudioNames->Run);
 }
 
 void AFPSCharacter::FadeLayer4()
@@ -120,8 +114,6 @@ void AFPSCharacter::FadeLayer4()
 	MusicManagerRef->FadeLayer(FourIsOn, TrackLayerSelection::T1L7);
 	MusicManagerRef->FadeLayer(FourIsOn, TrackLayerSelection::T1L8);
 
-	UE_LOG(LogTemp, Log, TEXT("Fade in 4 - Stage 1"));
-
 }
 
 void AFPSCharacter::FadeLayer5()
@@ -132,8 +124,6 @@ void AFPSCharacter::FadeLayer5()
 	FiveIsOn = !FiveIsOn;
 	MusicManagerRef->ChangeTrackStage(TrackStage::TS_Track2, TrackIntensity::TS_Intensity1);
 
-	UE_LOG(LogTemp, Log, TEXT("TRACK CHANGE CALLED"));
-	UE_LOG(LogTemp, Log, TEXT("Fade in 1 - Stage 2"));
 }
 
 
@@ -143,9 +133,7 @@ void AFPSCharacter::FadeLayer6()
 		return;
 
 	SixIsOn = !SixIsOn;
-	MusicManagerRef->FadeLayer(SixIsOn, TrackLayerSelection::T2L2);
-
-	UE_LOG(LogTemp, Log, TEXT("Fade in 2 - Stage 2"));
+	MusicManagerRef->FadeLayer(FourIsOn, TrackLayerSelection::T2L2);
 }
 
 
@@ -157,8 +145,6 @@ void AFPSCharacter::FadeLayer7()
 	SevenIsOn = !SevenIsOn;
 	MusicManagerRef->ChangeTrackStage(TrackStage::TS_Track3, TrackIntensity::TS_Intensity1);
 
-	UE_LOG(LogTemp, Log, TEXT("TRACK CHANGE CALLED"));
-	UE_LOG(LogTemp, Log, TEXT("Fade in 1 - Stage 3"));
 }
 
 void AFPSCharacter::FadeLayer8()
@@ -168,9 +154,6 @@ void AFPSCharacter::FadeLayer8()
 
 	EightIsOn = !EightIsOn;
 	MusicManagerRef->ChangeTrackStage(TrackStage::TS_Track1, TrackIntensity::TS_Intensity2);
-
-	UE_LOG(LogTemp, Log, TEXT("TRACK CHANGE CALLED"));
-	UE_LOG(LogTemp, Log, TEXT("Fade in Intensity 2 - Stage 1"));
 }
 
 

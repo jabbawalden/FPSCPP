@@ -350,7 +350,7 @@ void AMusicManager::VolumeUpdater(float DeltaTime)
 	}
 
 
-	if (TrackStageState == TrackStage::TS_Track3)
+	if (TrackStageState == TrackStage::TS_Track2)
 	{
 		if (T3bLayer1)
 			AMusicManager::FadeInAudioLayer(T3AudioCompLayer1, DeltaTime);

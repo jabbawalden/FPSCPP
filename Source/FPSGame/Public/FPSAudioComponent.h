@@ -63,19 +63,35 @@ public:
 	// Sets default values for this component's properties
 	UFPSAudioComponent();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DataTable", meta = (AllowPrivateAccess = "true"))
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DataTable", meta = (AllowPrivateAccess = "true"))
+	//AudioSpatialSetting AudioSpatialType;
+
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AudioCompType", meta = (AllowPrivateAccess = "true"))
+	//AudioObjectType AudioObjType;
+
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	//class UDataTable* AudioDataPlayer;
+
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	//class UDataTable* AudioDataEnemy;
+
+	//private access means properties defined in C++ private scope will be accessible to blueprints
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	//class UDataTable* AudioDataEnvironment;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DataTable")
 	AudioSpatialSetting AudioSpatialType;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AudioCompType", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AudioCompType")
 	AudioObjectType AudioObjType;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component")
 	class UDataTable* AudioDataPlayer;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component")
 	class UDataTable* AudioDataEnemy;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component")
 	class UDataTable* AudioDataEnvironment;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DataTable")
